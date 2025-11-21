@@ -15,18 +15,6 @@ export const generateInfographic = async (prompt) => {
 
     const imageUrl = `https://pollinations.ai/p/${encodedPrompt}?width=${width}&height=${height}&seed=${seed}&model=${model}`;
 
-    // We fetch the image to ensure it generates successfully before returning the URL.
-    // This allows us to catch errors and show a loading state.
-    try {
-        const response = await fetch(imageUrl);
-        if (!response.ok) {
-            throw new Error(`Failed to generate image: ${response.statusText}`);
-        }
-        // We return the URL directly since the browser can cache/load it.
-        // Alternatively, we could return response.blob() if we wanted to handle binary data.
-        return imageUrl;
-    } catch (error) {
-        console.error("Pollinations.ai Error:", error);
-        throw error;
-    }
+    // Return the URL directly. The <img> tag will handle loading.
+    return imageUrl;
 };
