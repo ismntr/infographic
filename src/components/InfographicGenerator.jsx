@@ -5,20 +5,19 @@ import { enhancePrompt } from '../utils/promptStyles';
 import { generateInfographic } from '../api/pollinationsAI';
 
 const InfographicGenerator = () => {
-    // MOCK USER FOR TESTING
-    const [user, setUser] = useState({ displayName: "Test User", photoURL: "https://via.placeholder.com/40" });
+    const [user, setUser] = useState(null);
     const [topic, setTopic] = useState('');
     const [style, setStyle] = useState('A');
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState(null);
     const [error, setError] = useState(null);
 
-    // useEffect(() => {
-    //     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-    //         setUser(currentUser);
-    //     });
-    //     return () => unsubscribe();
-    // }, []);
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+        });
+        return () => unsubscribe();
+    }, []);
 
     const handleLogin = async () => {
         try {
