@@ -5,16 +5,18 @@
  * @returns {Promise<string>} - A promise that resolves to the image URL.
  */
 export const generateInfographic = async (prompt) => {
-    // Pollinations.ai URL format: https://pollinations.ai/p/{prompt}?width={w}&height={h}&seed={random}
-    // We encode the prompt to ensure it's URL-safe.
+    // Pollinations.ai simple URL format
+    // The service generates images on-the-fly
     const encodedPrompt = encodeURIComponent(prompt);
-    const seed = Math.floor(Math.random() * 1000000);
-    const width = 1024;
-    const height = 1024;
-    const model = 'flux'; // 'flux' is a high-quality model often available on Pollinations
 
-    const imageUrl = `https://pollinations.ai/p/${encodedPrompt}?width=${width}&height=${height}&seed=${seed}&model=${model}`;
+    // Use simple URL format - the browser will handle loading
+    const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1024&height=1024&nologo=true`;
 
-    // Return the URL directly. The <img> tag will handle loading.
+    console.log('🎨 Generating image with Pollinations.ai');
+    console.log('📝 Prompt:', prompt);
+    console.log('🔗 URL:', imageUrl);
+
+    // Return URL directly - let the browser <img> tag handle loading
+    // Pollinations.ai generates images on-demand, so it may take a few seconds
     return imageUrl;
 };

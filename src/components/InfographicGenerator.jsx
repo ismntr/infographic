@@ -5,19 +5,20 @@ import { enhancePrompt } from '../utils/promptStyles';
 import { generateInfographic } from '../api/pollinationsAI';
 
 const InfographicGenerator = () => {
-    const [user, setUser] = useState(null);
+    // MOCK USER FOR TESTING
+    const [user, setUser] = useState({ displayName: "Test User", photoURL: "https://via.placeholder.com/40" });
     const [topic, setTopic] = useState('');
     const [style, setStyle] = useState('A');
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState(null);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
-        });
-        return () => unsubscribe();
-    }, []);
+    // useEffect(() => {
+    //     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    //         setUser(currentUser);
+    //     });
+    //     return () => unsubscribe();
+    // }, []);
 
     const handleLogin = async () => {
         try {
@@ -52,12 +53,12 @@ const InfographicGenerator = () => {
             const enhancedPrompt = enhancePrompt(topic, style);
 
             // Generate using Pollinations.ai
-            const url = await generateInfographic(enhancedPrompt);
-            setImageUrl(url);
+            const imageUrl = await generateInfographic(enhancedPrompt);
+            setImageUrl(imageUrl);
 
         } catch (err) {
             console.error(err);
-            setError("Failed to generate image. Please try again.");
+            setError(err.message || "Failed to generate image. Please try again.");
         } finally {
             setLoading(false);
         }
@@ -149,11 +150,12 @@ const InfographicGenerator = () => {
                         {imageUrl && (
                             <div className="w-full bg-white p-4 rounded-xl shadow-sm border border-gray-100 animate-fade-in">
                                 <h3 className="text-lg font-medium text-gray-900 mb-4">Result</h3>
-                                <div className="relative group">
+                                <div className="relative group w-full">
                                     <img
                                         src={imageUrl}
                                         alt="Generated Infographic"
                                         className="w-full rounded-lg shadow-sm"
+                                        loading="lazy"
                                     />
                                     <a
                                         href={imageUrl}
